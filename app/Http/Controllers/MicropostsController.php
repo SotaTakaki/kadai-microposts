@@ -30,7 +30,7 @@ class MicropostsController extends Controller
         ]);
         
         $request->user()->microposts()->create([
-                "content" => $request->content,
+            "content" => $request->content,
         ]);
         
         return back();
@@ -47,7 +47,7 @@ class MicropostsController extends Controller
         return back();
     }
     
-    public function show($id)
+/*    public function show($id)
     {
         $user = User::findOrfail($id);
         
@@ -59,5 +59,5 @@ class MicropostsController extends Controller
             "user" => $user,
             "microposts" => $microposts,
         ]);
-    }
+    } */
 }

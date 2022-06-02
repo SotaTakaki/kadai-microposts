@@ -15,11 +15,18 @@ class UsersController extends Controller
         return view("users.index", ["users" => $users, ]);
     }
     
-    public function show($id)
+     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrfail($id);
         
-        return view("users.show", ["user" => $user, ]);
+        $user->LoadRelationshipCounts();
+        
+        $microposts = $user->microposts()->orderBy("created_at", "desc")->paginate(10);
+        
+        return view("users.show",[
+            "user" => $user,
+            "microposts" => $microposts,
+        ]);
     }
     
     public function followings($id)
