@@ -11,18 +11,20 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 @if (Auth::check())
-                {{-- ユーザー一覧ページへのリンク --}}
-                <li class="nav-item">{!! link_to_route("users.index", "Users", [], ["class" => "nav-link"]) !!}</li>
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdowm">{{ Auth::user()->name }}</a>
-                    <ul class="dropdowm-menu dropdown-menu-right">
-                        {{-- ユーザー詳細ページへのリンク --}}
-                        <li class="dropdowm-item">{!! link_to_route("users.show", "My profile", ["user" => Auth::id()]) !!}</li>
-                        <li class="dropdowm-divider"></li>
-                        {{-- ログアウトへのリンク --}}
-                        <li class="dropdowm-item">{!! link_to_route("logout.get", "Log out") !!}</li>
-                    </ul>
-                </li>
+                    {{-- ユーザー一覧ページへのリンク --}}
+                    <li class="nav-item">{!! link_to_route("users.index", "Users", [], ["class" => "nav-link"]) !!}</li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            {{-- ユーザー詳細ページへのリンク --}}
+                            <li class="dropdown-item">{!! link_to_route("users.show", "My profile", ["user" => Auth::id()]) !!}</li>
+                            {{-- favへのリンク --}}
+                            <li class="dropdown-item">{!! link_to_route("users.favorites", "Favorites", ['id' => Auth::id()]) !!}</li>
+                            <li class="dropdown-divider"></li>
+                            {{-- ログアウトへのリンク --}}
+                            <li class="dropdown-item">{!! link_to_route("logout.get", "Logout") !!}</li>
+                        </ul>
+                    </li>
                 @else
                     {{-- ユーザ登録ページへのリンク --}}
                     <li class="nav-item">{!! link_to_route("signup.get", "Signup", [], ["class" => "nav-link"]) !!}/li>

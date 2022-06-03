@@ -102,8 +102,46 @@ class User extends Authenticatable
     // ユーザーに関係するモデルの件数をロードする。
     public function loadRelationshipCounts()
     {
-        $this->loadCount(["microposts", "followings", "followers"]);
+        $this->loadCount(["microposts", "followings", "followers", "favorites"]);
     }
     
+    public function favorites()
+    {
+        return $this->belongsToMany(Micropost::class, "favorites", "user_id", "micropost_id")->withTimestamps();
+    }
+    
+    public function favorite($micropostId)
+    {
+        // favされているか
+        $exist = $this->be_favorites($micropostId);
+        
+        if ($exist)
+            return false;
+        else
+        {
+            $this->favorites()->attach($micropostId);
+            return true;
+        }
+    }
+    
+    public function unfavorite($micropostId)
+    {
+        // favされているか
+        $exist = $this->be_favorites($micropostId);
+        
+        if ($exist)
+        {
+            $this->favorites()->detach($micropostId);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    // $micropostIdの投稿がこのユーザーにfavされているか
+    public function be_favorites($micropostId)
+    {
+        return $this->favorites()->where("micropost_id", $micropostId)->exists();
+    }
     
 }

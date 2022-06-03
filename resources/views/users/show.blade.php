@@ -11,6 +11,7 @@
                 @include("microposts.form")
             @endif
             @include("microposts.microposts")
+            
         </div>
     </div>
 @endsection
