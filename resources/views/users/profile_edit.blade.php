@@ -2,6 +2,7 @@
 @extends("layouts.app")
 
 @section("content")
+    <h1 class="border-bottom mb-4">投稿編集ページ</h1>
     <div class="row">
         <div class="col-6">
             {!! Form::model($user, ["route" => ["users.profile_update", $user->id], "method" => "put", "enctype" => "multipart/form-data"]) !!}
