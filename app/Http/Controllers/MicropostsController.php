@@ -33,7 +33,7 @@ class MicropostsController extends Controller
             "content" => $request->content,
         ]);
         
-        return back();
+        return back()->with('post_message', '投稿しました。');
     }
     
     public function destroy($id)
@@ -44,20 +44,24 @@ class MicropostsController extends Controller
             $micropost->delete();
         }
         
-        return back();
+        return back()->with('delete_post_message', '投稿を削除しました。');
     }
     
-/*    public function show($id)
+    public function edit($id)
     {
-        $user = User::findOrfail($id);
+        $micropost = \App\Micropost::findOrFail($id);
         
-        $user->LoadRelationshipCounts();
-        
-        $microposts = $user->microposts()->orderBy("created_at", "desc")->paginate(10);
-        
-        return view("user.show",[
-            "user" => $user,
-            "microposts" => $microposts,
+        return view("microposts.edit",[
+           "micropost" => $micropost, 
         ]);
-    } */
+    } 
+    
+    public function update(Request $request, $id)
+    {
+        $micropost = \App\Micropost::findOrFail($id);
+        $micropost->content = $request->content;
+        $micropost->save();
+        
+        return redirect("/")->with('edit_post_message', '投稿を編集しました。');
+    }
 }

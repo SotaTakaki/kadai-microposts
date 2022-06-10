@@ -28,6 +28,10 @@ Route::group(["middleware" => ["auth"]], function(){
         Route::get('followings', 'UsersController@followings')->name('users.followings');
         Route::get('followers', 'UsersController@followers')->name('users.followers');
         Route::get('favorites', 'UsersController@favorites')->name('users.favorites');
+        Route::get('edit', 'UsersController@edit')->name('users.profile_edit');
+        Route::put('profile_update', 'UsersController@update')->name('users.profile_update');
+   //     Route::put('saveProfileImage', 'UsersController@saveProfileImage')->name('users.saveProfileImage');
+        
     });
     
     Route::resource("users", "UsersController", ["only" => ["index", "show"]]);
@@ -37,6 +41,6 @@ Route::group(["middleware" => ["auth"]], function(){
         Route::delete('unfavorite', 'FavoritesController@destroy')->name('favorites.unfavorite');
     });
     
-    Route::resource("microposts", "MicropostsController", ["only" => ["store", "destroy"]]);
+    Route::resource("microposts", "MicropostsController", ["only" => ["store", "destroy", "edit", "update"]]);
 });
 

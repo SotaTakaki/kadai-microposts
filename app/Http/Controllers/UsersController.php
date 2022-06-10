@@ -6,12 +6,21 @@ use Illuminate\Http\Request;
 
 use App\User;
 
+use Illuminate\Validation\Rule;
+
 class UsersController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->name;
         $users = User::orderBy("id", "desc")->paginate(10);
-        
+    
+        if ($search != null)
+        {
+            $sort = User::where("name", "LIKE", "%$search%")->get();
+            $users = $sort->paginate(10);
+            
+        }
         return view("users.index", ["users" => $users, ]);
     }
     
@@ -65,4 +74,56 @@ class UsersController extends Controller
             "microposts" => $favorites,
         ]);
     }
+
+    // プロフィール情報編集
+    public function edit($id)
+    {
+        $user = \Auth::user();
+        return view("users.profile_edit", ["user" => $user]);
+    }
+    
+    public function update(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255', Rule::unique("users")->ignore(\Auth::id())],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique("users")->ignore(\Auth::id())],
+            // 画像もバリデーションいる？？
+        ]);
+            
+        $user = \Auth::user();
+        
+        if ($user->name != $request->name)
+        {
+            $user->name = $request->name;
+            $user->save();
+        }
+        
+        if ($user->email != $request->email)
+        {
+            $user->email = $request->email;
+            $user->save();
+        }
+        
+        if ($request->file("profile_image") == null)
+        {
+            return redirect("/")->with('update_profile_message', 'プロフィール情報を更新しました。');
+        }
+       
+        $file = $request->file('profile_image');
+        //$fileName = $file->getClientOriginalName();
+        $fileHashName = $file->hashName();
+          
+
+        $path = $file->storeAs('public/profiles', $fileHashName);
+    /*    dump($file);
+        dump($fileName);
+        dump($fileHashName);
+        dd($path);
+    */
+        $user->profile_image = $fileHashName;
+        $user->save();
+        
+        return redirect("/")->with('update_profile_message', 'プロフィール情報を更新しました。');
+    }
+    
 }

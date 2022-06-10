@@ -14,6 +14,8 @@
         <div class="container">
             {{-- error messages --}}
             @include("commons.error_messages")
+            {{-- flash message --}}
+            @include("commons.flash_messages")
             
             @yield("content")
         </div>
