@@ -14,6 +14,8 @@ class UsersController extends Controller
     {
         $search = $request->name;
         $users = User::orderBy("id", "desc")->paginate(10);
+        $authUser = \Auth::user(); //リコメンド用
+        $flag = 0;// リコメンド振り分け用
     
         if ($search != null)
         {
@@ -21,7 +23,7 @@ class UsersController extends Controller
             $users = $sort->paginate(10);
             
         }
-        return view("users.index", ["users" => $users, ]);
+        return view("users.index", ["users" => $users, "authUser" => $authUser, "flag" => $flag]);
     }
     
      public function show($id)
@@ -87,7 +89,7 @@ class UsersController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique("users")->ignore(\Auth::id())],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique("users")->ignore(\Auth::id())],
-            // 画像もバリデーションいる？？
+            'affiliation' => ['max:255'],
         ]);
             
         $user = \Auth::user();
@@ -101,6 +103,12 @@ class UsersController extends Controller
         if ($user->email != $request->email)
         {
             $user->email = $request->email;
+            $user->save();
+        }
+        
+        if ($user->affiliation != $request->affiliation)
+        {
+            $user->affiliation = $request->affiliation;
             $user->save();
         }
         

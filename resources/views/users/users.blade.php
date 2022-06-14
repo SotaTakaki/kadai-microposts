@@ -19,7 +19,3 @@
 @else
     <h5>ユーザーが存在しません。</h5>
 @endif
-
-{{-- <ul class="list-unstyled">
-        @foreach ($users as $user)d-flex flex-
- --}}

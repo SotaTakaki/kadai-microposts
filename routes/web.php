@@ -30,7 +30,6 @@ Route::group(["middleware" => ["auth"]], function(){
         Route::get('favorites', 'UsersController@favorites')->name('users.favorites');
         Route::get('edit', 'UsersController@edit')->name('users.profile_edit');
         Route::put('profile_update', 'UsersController@update')->name('users.profile_update');
-   //     Route::put('saveProfileImage', 'UsersController@saveProfileImage')->name('users.saveProfileImage');
         
     });
     
