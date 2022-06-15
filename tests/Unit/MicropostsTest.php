@@ -4,9 +4,9 @@ namespace Tests\Unit;
 
 // 追加した
 use App\User;
-use Illuminate\Database\Seeder\UsersTableSeeder;
-use Illuminate\Database\Seeder\DatabaseSeeder;
-use Illuminate\Database\Seeder\UsersFollowTableSeeder;
+//use Illuminate\Database\Seeder\UsersTableSeeder;
+//use Illuminate\Database\Seeder\DatabaseSeeder;
+//use Illuminate\Database\Seeder\UsersFollowTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use PHPUnit\Framework\TestCase;
@@ -23,8 +23,9 @@ class MicropostsTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->seed(UsersTableSeeder::class);
-        $this->seed(UsersFollowTableSeeder::class);
+        //$this->seed(UsersTableSeeder::class);
+        //$this->seed(UsersFollowTableSeeder::class);
+        $this->seed();
         $this->_user = User::find(self::MY_USER_ID);
     }
     
