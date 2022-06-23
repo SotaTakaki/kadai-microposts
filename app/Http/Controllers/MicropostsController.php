@@ -51,9 +51,17 @@ class MicropostsController extends Controller
     {
         $micropost = \App\Micropost::findOrFail($id);
         
-        return view("microposts.edit",[
-           "micropost" => $micropost, 
-        ]);
+        // URL直打ち対策
+        if (\Auth::id() == $micropost->user_id)
+        {
+            return view("microposts.edit",[
+                "micropost" => $micropost, 
+            ]);
+        }
+        else
+        {
+            return redirect("/");
+        }
     } 
     
     public function update(Request $request, $id)
