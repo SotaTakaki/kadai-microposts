@@ -18,7 +18,7 @@
     @endif
     
     @if (session('delete_post_message'))
-        <div class="alert alert-dark"> //エラーメッセージと被らないように色をグレーに変更。
+        <div class="alert alert-dark"> {{-- エラーメッセージと被らないように色をグレーに変更。--}}
             {{ session('delete_post_message') }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
