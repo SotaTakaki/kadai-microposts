@@ -81,15 +81,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = \Auth::user();
-        // ログインidと投稿のuseridが一致した時のみ編集可能に
-        if ($user->id == $id)
-        {
-            return view("users.profile_edit", ["user" => $user]);
-        }
-        else
-        {
-            return redirect("/");
-        }
+        return view("users.profile_edit", ["user" => $user]);
     }
     
     public function update(Request $request)
@@ -98,7 +90,9 @@ class UsersController extends Controller
             'name' => ['required', 'string', 'max:255', Rule::unique("users")->ignore(\Auth::id())],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique("users")->ignore(\Auth::id())],
             'affiliation' => ['max:255'],
-            'profile_image' => ['image'], //画像ファイルのみにバーリデーションを設定。
+            // 画像ファイル(jpeg,png)のみにバーリデーションを設定。
+            // mimesで拡張子指定
+            'profile_image' => ['image', 'mimes:jpeg,png'], 
         ]);
             
         $user = \Auth::user();
