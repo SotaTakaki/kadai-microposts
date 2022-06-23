@@ -28,12 +28,13 @@ Route::group(["middleware" => ["auth"]], function(){
         Route::get('followings', 'UsersController@followings')->name('users.followings');
         Route::get('followers', 'UsersController@followers')->name('users.followers');
         Route::get('favorites', 'UsersController@favorites')->name('users.favorites');
-        Route::get('edit', 'UsersController@edit')->name('users.profile_edit');
-        Route::put('profile_update', 'UsersController@update')->name('users.profile_update');
-        
     });
     
     Route::resource("users", "UsersController", ["only" => ["index", "show"]]);
+    
+    // プロフィール編集
+    Route::get('edit', 'UsersController@edit')->name('users.profile_edit');
+    Route::put('profile_update', 'UsersController@update')->name('users.profile_update');
     
     Route::group(['prefix' => 'microposts/{id}'], function () {
         Route::post('favorite', 'FavoritesController@store')->name('favorites.favorite');

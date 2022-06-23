@@ -78,7 +78,7 @@ class UsersController extends Controller
     }
 
     // プロフィール情報編集
-    public function edit($id)
+    public function edit()
     {
         $user = \Auth::user();
         return view("users.profile_edit", ["user" => $user]);
